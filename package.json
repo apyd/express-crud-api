@@ -1,0 +1,32 @@
+{
+  "name": "express-crud-api",
+  "version": "1.0.0",
+  "description": "crud api app",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsx src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apyd/express-crud-api.git"
+  },
+  "keywords": [
+    "express",
+    "api",
+    "crud",
+    "typescript"
+  ],
+  "author": "Artur Pydych",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/apyd/express-crud-api/issues"
+  },
+  "homepage": "https://github.com/apyd/express-crud-api#readme",
+  "dependencies": {
+    "express": "^4.19.1"
+  },
+  "devDependencies": {
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.3"
+  }
+}
