@@ -1,1 +1,0 @@
-export const profileHandler = (req, res) => {}
