@@ -22,7 +22,7 @@ Note: TypeScript should be used.
 
 1. Server is created using Express framework.
     - Server should be started using npm start command and stopped by npm run stop. Server is running on 8000 port.
-2. API implementation follows Swagger. Proper HTTP status codes are returned in responses (not only 200 or 500).
+2. API implementation follows Swagger (docs/swagger.yml). Proper HTTP status codes are returned in responses (not only 200 or 500).
     - Auth endpoints should be skipped at this point.
     - If token is not provided, 401 status code should be returned. If there is no such a user, 403 status code should be returned.
     - At least one product should be available in /api/products endpoint
