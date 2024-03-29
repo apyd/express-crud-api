@@ -1,21 +1,43 @@
-import express from 'express'
+import express from "express";
 
-import { profileHandler } from '../profile/profile.controller'
-import { productsHandler } from '../products/products.controller'
-import { authHandler } from '../auth/auth.controller'
+import * as cartHandler from "../profile/cart/cart.controller";
+import * as checkoutHandler from "../profile/cart/checkout/checkout.controller";
+import * as productsController from "../products/products.controller";
 
-const router = express.Router()
+import { auth } from "../common/middleware/auth";
+import { errorHandler } from "../common/middleware/error";
+import {
+  validateCart,
+  validateCheckout,
+  validateId,
+} from "../common/middleware/validator";
 
-router.get('/api/profile/cart', profileHandler)
-router.put('/api/profile/cart', profileHandler)
-router.delete('/api/profile/cart', profileHandler)
-router.post('/api/profile/cart/checkout', profileHandler)
+const router = express.Router();
 
-router.get('/api/products', productsHandler)
-router.get('/api/products/:productId', productsHandler)
+router.use(auth);
 
-router.get('/api/auth/register', authHandler)
-router.get('/api/auth/login', authHandler)
+router.get("/api/profile/cart", cartHandler.getCart);
+router.put("/api/profile/cart", validateCart, cartHandler.updateCart);
+router.delete("/api/profile/cart", cartHandler.deleteCart);
+router.post(
+  "/api/profile/cart/checkout",
+  validateCheckout,
+  checkoutHandler.createOrder
+);
 
-export default router
+router.get("/api/products", productsController.getAllProducts);
+router.get(
+  "/api/products/:productId",
+  validateId,
+  productsController.getProductById
+);
 
+router.use((_, res) => {
+  res.status(404).json({
+    message: "Route or method not supported. Check API documentation.",
+  });
+});
+
+router.use(errorHandler);
+
+export default router;
