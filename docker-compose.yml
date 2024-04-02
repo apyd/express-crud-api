@@ -1,0 +1,23 @@
+version: "3"
+services:
+  mongo:
+    image: "mongo"
+    container_name: "nodegmp-nosql"
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DB_ADMIN_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_ADMIN_PASSWORD}
+      - DB_APP_USER=${DB_APP_USER}
+      - DB_APP_PASSWORD=${DB_APP_PASSWORD}
+      - DB_APP_NAME=${DB_APP_NAME}
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb-data:/data/db
+      - mongodb-log:/var/log/mongodb
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+volumes:
+  mongodb-data:
+    driver: local
+  mongodb-log:
+    driver: local
