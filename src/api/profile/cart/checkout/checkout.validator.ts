@@ -1,4 +1,7 @@
 const Joi = require("joi");
+import { BadRequestError } from "../../../utils/errors";
+
+import type { RequestOrderData } from "./checkout.types";
 
 const schema = Joi.object({
   payment: {
@@ -15,4 +18,11 @@ const schema = Joi.object({
   total: Joi.number().integer().min(0).required(),
 });
 
-export default schema;
+export const validateCheckout = (checkoutData: RequestOrderData) => {
+  const { error } = schema.validate(checkoutData);
+  if (error) {
+    throw new BadRequestError(error.details[0].message);
+  }
+  return;
+};
+
