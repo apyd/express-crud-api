@@ -1,6 +1,6 @@
 import { getProductByIdService } from "../../products/products.service";
 import { getCart, updateCart, deleteCart } from "./cart.repository";
-import { BadRequestError, NotFoundError } from "../../../utils/errors";
+import { BadRequestError, NotFoundError } from "../../utils/errors";
 
 import type { Cart, CartResponse, UpdateCartRequestBody } from "./cart.types";
 import type { UserId } from "../profile.type";
