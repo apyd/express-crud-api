@@ -1,10 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import {
-  BadRequestError,
-  ForbiddenError,
-  UnauthorizedError,
-} from "../../../utils/errors";
-import { isUuidV4 } from "../../../utils";
+import { BadRequestError, ForbiddenError, UnauthorizedError } from "../../utils/errors";
+import { isUuidV4 } from "../../utils";
 
 import type { UserId } from "../../profile/profile.type";
 

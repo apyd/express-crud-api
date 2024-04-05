@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { CustomError } from "../../../utils/errors";
+import { CustomError } from "../../utils/errors";
 
 const DEFAULT_ERROR = {
   STATUS: 500,
