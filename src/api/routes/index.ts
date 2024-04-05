@@ -6,31 +6,18 @@ import * as productsController from "../products/products.controller";
 
 import { auth } from "../common/middleware/auth";
 import { errorHandler } from "../common/middleware/error";
-import {
-  validateCart,
-  validateCheckout,
-  validateId,
-} from "../common/middleware/validator";
 
 const router = express.Router();
 
 router.use(auth);
 
 router.get("/api/profile/cart", cartHandler.getCart);
-router.put("/api/profile/cart", validateCart, cartHandler.updateCart);
+router.put("/api/profile/cart", cartHandler.updateCart);
 router.delete("/api/profile/cart", cartHandler.deleteCart);
-router.post(
-  "/api/profile/cart/checkout",
-  validateCheckout,
-  checkoutHandler.createOrder
-);
+router.post("/api/profile/cart/checkout", checkoutHandler.createOrder);
 
 router.get("/api/products", productsController.getAllProducts);
-router.get(
-  "/api/products/:productId",
-  validateId,
-  productsController.getProductById
-);
+router.get("/api/products/:productId", productsController.getProductById);
 
 router.use((_, res) => {
   res.status(404).json({
