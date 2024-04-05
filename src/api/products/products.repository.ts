@@ -1,18 +1,6 @@
-import DB from "../../db";
-import { Product, ProductId } from "./product/product.types";
+import Product from "./products.model";
+import type { ProductId } from "./product/product.types";
 
-export const getProducts = async (): Promise<Product[]> => {
-  return new Promise((res, _) => {
-    res(DB.get("products"));
-  });
-};
+export const getAll = async () => await Product.find({})
 
-export const getProductById = (
-  productId: ProductId
-): Promise<Product | undefined> => {
-  return new Promise((res, _) => {
-    res(
-      DB.get("products").find((product: Product) => product.id === productId)
-    );
-  });
-};
+export const getById = async (productId: ProductId) => await Product.findById(productId)
