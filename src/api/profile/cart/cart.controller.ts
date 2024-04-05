@@ -7,6 +7,7 @@ import {
 
 import type { Cart, UpdateCartRequestBody } from "./cart.types";
 import type { UserId } from "../profile.type";
+import { validateCart } from "./cart.validator";
 
 export const getCart = async (
   req: Request,
@@ -33,6 +34,7 @@ export const updateCart = async (
   try {
     const userId = req.headers["x-user-id"] as UserId;
     const updateCartData: UpdateCartRequestBody = req.body;
+    validateCart(updateCartData)
     const cart = await updateCartService(userId, updateCartData);
     res.json({
       data: cart,

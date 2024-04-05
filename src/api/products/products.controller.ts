@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { getProductByIdService, getProductsService } from "./products.service";
+import { validateId } from "../common/validator/id.validator";
+
+import type { ProductId } from "./product/product.types";
 
 export const getAllProducts = async (
   _: Request,
@@ -23,7 +26,8 @@ export const getProductById = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const productId = req.params.productId;
+    const productId = req.params.productId as ProductId;
+    validateId(productId);
     const product = await getProductByIdService(productId);
     res.json({
       data: product,
