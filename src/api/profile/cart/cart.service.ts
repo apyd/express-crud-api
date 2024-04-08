@@ -42,6 +42,7 @@ export const updateCartService = async (
       count: dataWithValidCount[index].count,
     };
   });
+
   const total = mappedProducts.reduce((acc, item) => acc + (item.count * item.product.price), 0);
   const updatedCart = await updateCart(userId, mappedProducts, total);
   if (!updatedCart) {

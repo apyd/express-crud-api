@@ -5,15 +5,14 @@ import type { Cart } from "./cart.types";
 
 const cartItemSchema = new mongoose.Schema({
   product: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: "Product",
   },
   count: Number,
 }, {
   _id: false,
   versionKey: false,
-}
-);
+});
 
 const schema = new mongoose.Schema({
   _id: { type: String, default: crypto.randomUUID },
