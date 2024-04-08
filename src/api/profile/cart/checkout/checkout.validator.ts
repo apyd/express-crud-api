@@ -15,7 +15,6 @@ const schema = Joi.object({
   },
   comments: Joi.string().required(),
   status: Joi.string().valid("created", "completed").required(),
-  total: Joi.number().integer().min(0).required(),
 });
 
 export const validateCheckout = (checkoutData: RequestOrderData) => {

@@ -1,5 +1,3 @@
-import crypto from 'node:crypto'
-
 import Checkout from './checkout.model';
 import Cart from '../cart.model';
 
@@ -11,18 +9,20 @@ export const createOrder = async (userId: UserId, orderData: RequestOrderData) =
   if (!cart) {
     return;
   }
-
-  const order = await Checkout.create({
-    id: crypto.randomUUID(),
-    userId: cart.userId,
-    cartId: cart.id,
-    items: cart.items,
-    payment: orderData.payment,
-    delivery: orderData.delivery,
-    comments: orderData.comments,
-    status: orderData.status,
-    total: orderData.total,
-  
-  })
-  return order
-};
+  try {
+    const order = await Checkout.create({
+      userId: cart.userId,
+      cartId: cart.id,
+      items: cart.items,
+      payment: orderData.payment,
+      delivery: orderData.delivery,
+      comments: orderData.comments,
+      status: orderData.status,
+      total: cart.total,
+    })
+    return order
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
