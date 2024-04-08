@@ -7,7 +7,7 @@ const schema = Joi.object({
 });
 
 export const validateId = (id: UUID) => {
-  const { error } = schema.validate(id);
+  const { error } = schema.validate({id});
   if (error) {
     throw new BadRequestError(error.details[0].message);
   }
