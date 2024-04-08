@@ -14,6 +14,7 @@ export type Cart = {
   userId: UserId;
   isDeleted: boolean;
   items: CartItem[];
+  total: number;
 }
 
 export type UpdateCartItem = {
@@ -22,7 +23,7 @@ export type UpdateCartItem = {
 }
 
 export type CartResponse = {
-  cart: Cart;
+  cart: Pick<Cart, "id" | "items">;
   total: number;
 }
 
