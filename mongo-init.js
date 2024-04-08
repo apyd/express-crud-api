@@ -6,7 +6,6 @@ db.createUser({
     roles: [{ role: 'readWrite', db: process.env.DB_APP_NAME }],
 });
 
-db.createCollection('users');
 db.createCollection('products');
 db.createCollection('carts');
-db.createCollection('orders');
+db.createCollection('checkouts');
