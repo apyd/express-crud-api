@@ -2,9 +2,8 @@ import crypto from "node:crypto";
 
 import Cart from "./cart.model";
 
-import type { UpdateCartItem } from "./cart.types";
+import type { CartItem } from "./cart.types";
 import type { UserId } from "../profile.type";
-import type { Product } from "../../products/product/product.types";
 
 export const getCart = async (userId: UserId) => {
   const cart = await Cart.findOne({ userId, isDeleted: false });
@@ -14,6 +13,7 @@ export const getCart = async (userId: UserId) => {
       userId,
       isDeleted: false,
       items: [],
+      total: 0
     });
     await newCart.save();
     return newCart;
@@ -24,20 +24,15 @@ export const getCart = async (userId: UserId) => {
 
 export const updateCart = async (
   userId: UserId,
-  updateCartData: UpdateCartItem[],
-  products: Product[] | []
-) => {
+  items: CartItem[],
+  total: number
+) =>  {
   const cart = await Cart.findOne({ userId, isDeleted: false });
   if (!cart) {
     return;
   }
-  const mappedProducts = products.map((product, index) => {
-    return {
-      product,
-      count: updateCartData[index].count,
-    };
-  });
-  cart.items = mappedProducts;
+  cart.items = items;
+  cart.total = total;
   await cart.save();
   return cart;
 }

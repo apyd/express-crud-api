@@ -5,9 +5,17 @@ import { BadRequestError, NotFoundError } from "../../utils/errors";
 import type { Cart, CartResponse, UpdateCartRequestBody } from "./cart.types";
 import type { UserId } from "../profile.type";
 import type { Product } from "../../products/product/product.types";
+import { UUID } from "node:crypto";
 
-export const getCartService = async (userId: UserId): Promise<Cart> => {
-  return await getCart(userId);
+export const getCartService = async (userId: UserId): Promise<CartResponse> => {
+  const cart = await getCart(userId);
+  return {
+    cart: {
+      id: cart._id as unknown as UUID,
+      items: cart.items,
+    },
+    total: cart.total
+  }
 };
 
 export const updateCartService = async (
@@ -28,14 +36,22 @@ export const updateCartService = async (
       products.push(product);
     }
   }
-
-  const updatedCart = await updateCart(userId, data, products);
+  const mappedProducts = products.map((product, index) => {
+    return {
+      product,
+      count: dataWithValidCount[index].count,
+    };
+  });
+  const total = mappedProducts.reduce((acc, item) => acc + (item.count * item.product.price), 0);
+  const updatedCart = await updateCart(userId, mappedProducts, total);
   if (!updatedCart) {
     throw new NotFoundError(`Cart was not found`);
   }
-  const total = updatedCart.items.reduce((acc, item) => acc + (item.count * item.product.price), 0);
   return {
-    cart: updatedCart,
+    cart: {
+      id: updatedCart._id as unknown as UUID,
+      items: updatedCart.items,
+    },
     total,
   };
 };
@@ -45,5 +61,5 @@ export const deleteCartService = async (userId: UserId): Promise<Cart> => {
   if (!deletedCart) {
     throw new BadRequestError(`No cart with for such user id`);
   }
-  return deletedCart;
+  return deletedCart
 };
