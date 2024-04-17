@@ -1,19 +1,16 @@
-import crypto from 'node:crypto'
+import Checkout from './checkout.model';
+import Cart from '../cart.model';
 
-import DB from "../../../../db";
-
-import type { Cart } from "../cart.types";
-import type { Order, RequestOrderData } from "./checkout.types";
+import type {  RequestOrderData } from "./checkout.types";
 import type { UserId } from '../../profile.type';
 
-export const createOrder = (userId: UserId, orderData: RequestOrderData): Promise<Order | null> => {
-  return new Promise((res, _) => {
-    const cart = DB.get('carts').find((cart: Cart) => cart.userId === userId && !cart.isDeleted);
-    if(!cart || cart.items.length === 0) {
-      res(null)
-    }
-    res({
-      id: crypto.randomUUID(),
+export const createOrder = async (userId: UserId, orderData: RequestOrderData) => {
+  const cart = await Cart.findOne({ userId, isDeleted: false });
+  if (!cart) {
+    return;
+  }
+  try {
+    const order = await Checkout.create({
       userId: cart.userId,
       cartId: cart.id,
       items: cart.items,
@@ -21,7 +18,11 @@ export const createOrder = (userId: UserId, orderData: RequestOrderData): Promis
       delivery: orderData.delivery,
       comments: orderData.comments,
       status: orderData.status,
-      total: orderData.total,
-    });
-  });
-};
+      total: cart.total,
+    })
+    return order
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}

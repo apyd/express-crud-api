@@ -1,5 +1,5 @@
 import { createOrder } from './checkout.repository';
-import { BadRequestError } from '../../../../utils/errors';
+import { BadRequestError } from '../../../utils/errors';
 import type { Order, RequestOrderData } from './checkout.types';
 import type { UserId } from '../../profile.type';
 

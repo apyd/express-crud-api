@@ -25,4 +25,4 @@ export interface Order {
   total: number;
 }
 
-export type RequestOrderData = Omit<Order, 'id' | 'userId' | 'cartId' | 'items'>
+export type RequestOrderData = Pick<Order, 'payment' | 'delivery' | 'comments' | 'status'>

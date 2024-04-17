@@ -1,10 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import { createOrderService } from "./checkout.service";
-import schema from "./checkout.validator";
-import { BadRequestError } from "../../../../utils/errors";
+import { validateCheckout } from "./checkout.validator";
 
 import type { RequestOrderData } from "./checkout.types";
-import { UserId } from "../../profile.type";
+import type { UserId } from "../../profile.type";
 
 export const createOrder = async (
   req: Request,
@@ -14,10 +13,7 @@ export const createOrder = async (
   try {
     const userId = req.headers["x-user-id"] as UserId;
     const createOrderData: RequestOrderData = req.body;
-    const { error } = schema.validate(createOrderData)
-    if (error) {
-      throw new BadRequestError(error.message);
-    }
+    validateCheckout(createOrderData)
     const order = await createOrderService(userId, createOrderData);
     res.json({ data: order});
   } catch (error) {

@@ -1,4 +1,7 @@
 const Joi = require('joi');
+import { BadRequestError } from "../../utils/errors";
+
+import type { UpdateCartRequestBody } from "../../profile/cart/cart.types";
 
 const productSchema = Joi.object({
     productId: Joi.string().guid({ version: 'uuidv4' }),
@@ -11,4 +14,10 @@ const schema = Joi.alternatives().try(
     Joi.array().items(Joi.any())
 )
 
-export default schema
+export const validateCart = (cartData: UpdateCartRequestBody) => {
+  const { error } = schema.validate(cartData);
+  if (error) {
+    throw new BadRequestError(error.details[0].message);
+  }
+  return;
+};
