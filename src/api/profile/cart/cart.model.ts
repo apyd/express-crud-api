@@ -1,42 +1,29 @@
-import crypto from "node:crypto";
-import mongoose from "mongoose";
+import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from "sequelize";
+import { sequelize } from "../../../server";
+import CartItems from "./cartItem/cartItem.model";
+import type { Cart, CartItem } from "./cart.types";
+import type { UUID } from "node:crypto";
 
-import type { Cart } from "./cart.types";
+interface CartModelInterface extends Model<InferAttributes<CartModelInterface>, InferCreationAttributes<CartModelInterface>> {
+  id: CreationOptional<UUID>;
+  userId: Cart['userId'],
+  isDeleted: CreationOptional<Cart['isDeleted']>
+  total: CreationOptional<Cart['total']>
+  items: NonAttribute<CartItem[]>
+}
 
-const cartItemSchema = new mongoose.Schema({
-  product: {
-    type: String,
-    ref: "Product",
-  },
-  count: Number,
+const CartModel = sequelize.define<CartModelInterface>('Cart', {
+  id: { type: DataTypes.UUID, primaryKey: true, defaultValue: DataTypes.UUIDV4},
+  // temporarily userId is not referenced to user table as it doesn't exist- 
+  // this will be implemented in next PR at the moment we just keep userId as a uuidv4
+  userId: { type: DataTypes.UUID, allowNull: false, validate: { isUUID: 4 }},
+  isDeleted: { type: DataTypes.BOOLEAN, defaultValue: false },
+  total: { type: DataTypes.DECIMAL, defaultValue: 0, validate: { min: 0 }},
 }, {
-  _id: false,
-  versionKey: false,
+  tableName: 'carts'
 });
 
-const schema = new mongoose.Schema({
-  _id: { type: String, default: crypto.randomUUID },
-  userId: { type: String, required: true },
-  isDeleted: { type: Boolean, default: false },
-  items: { type: [cartItemSchema], default: [], required: true},
-  total: { type: Number, default: 0, min: 0}
-}, {
-  toJSON: {
-    virtuals: true,
-    transform: function(doc, ret) {
-      // use id instead of _id in output
-      ret.id = doc._id;
-
-      // remove fields that skipped in response
-      delete ret._id;
-      delete ret.__v;
-      delete ret.userId
-      delete ret.isDeleted;
-    }
-  }
-});
-
-const CartModel = mongoose.model<Cart>("Cart", schema);
+CartModel.hasMany(CartItems, { foreignKey: 'cartId' });
 
 export default CartModel;
 
