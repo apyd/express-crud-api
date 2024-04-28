@@ -3,14 +3,14 @@ import { sequelize } from "../../server";
 import type { Product } from "./product/product.types";
 import { UUID } from "node:crypto";
 
-interface ProductModel extends Model<InferAttributes<ProductModel>, InferCreationAttributes<ProductModel>> {
+interface ProductModelInterface extends Model<InferAttributes<ProductModelInterface>, InferCreationAttributes<ProductModelInterface>> {
   id: CreationOptional<UUID>;
   title: Product['title'],
   description: Product['description'],
   price: Product['price']
 }
 
-const ProductModel = sequelize.define<ProductModel>('Product', {
+const ProductModel = sequelize.define<ProductModelInterface>('Product', {
   id: { type: DataTypes.UUID, primaryKey: true, defaultValue: DataTypes.UUIDV4 },
   title: { type: DataTypes.STRING, allowNull: false },
   description: { type: DataTypes.STRING, allowNull: false },
