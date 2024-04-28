@@ -5,16 +5,17 @@ import { BadRequestError, NotFoundError } from "../../utils/errors";
 import type { Cart, CartResponse, UpdateCartRequestBody } from "./cart.types";
 import type { UserId } from "../profile.type";
 import type { Product } from "../../products/product/product.types";
-import { UUID } from "node:crypto";
+import type { UUID } from "node:crypto";
 
 export const getCartService = async (userId: UserId): Promise<CartResponse> => {
   const cart = await getCart(userId);
+  const { id, items, total } = cart;
   return {
     cart: {
-      id: cart._id as unknown as UUID,
-      items: cart.items,
+      id,
+      items
     },
-    total: cart.total
+    total
   }
 };
 
@@ -44,23 +45,23 @@ export const updateCartService = async (
   });
 
   const total = mappedProducts.reduce((acc, item) => acc + (item.count * item.product.price), 0);
-  const updatedCart = await updateCart(userId, mappedProducts, total);
-  if (!updatedCart) {
+  const cart = await updateCart(userId, mappedProducts, total);
+  if (!cart) {
     throw new NotFoundError(`Cart was not found`);
   }
   return {
     cart: {
-      id: updatedCart._id as unknown as UUID,
-      items: updatedCart.items,
+      id: cart.id,
+      items: cart.items,
     },
     total,
   };
 };
 
-export const deleteCartService = async (userId: UserId): Promise<Cart> => {
-  const deletedCart = await deleteCart(userId);
-  if (!deletedCart) {
+export const deleteCartService = async (userId: UserId): Promise<Boolean> => {
+  const cartMarkedAsDeleted = await deleteCart(userId);
+  if (!cartMarkedAsDeleted) {
     throw new BadRequestError(`No cart with for such user id`);
   }
-  return deletedCart
+  return cartMarkedAsDeleted
 };
