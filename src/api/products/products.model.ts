@@ -1,5 +1,5 @@
 import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from "sequelize";
-import { sequelize } from "../../server";
+import { sequelize } from "../db";
 import type { Product } from "./product/product.types";
 import { UUID } from "node:crypto";
 

@@ -1,4 +1,4 @@
-import { sequelize } from "../../../server";
+import { sequelize } from "../../db";
 import Cart from "./cart.model";
 import CartItems from "./cartItem/cartItem.model";
 import Product from "../../products/products.model";

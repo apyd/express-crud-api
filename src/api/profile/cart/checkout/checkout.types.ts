@@ -2,7 +2,7 @@ import type { UUID } from 'crypto';
 import type { CartId, CartItem } from '../cart.types';
 import type { UserId } from '../../profile.type';
 
-type ORDER_STATUS = 'created' | 'completed';
+export type ORDER_STATUS = 'created' | 'completed';
 
 type OrderId = UUID;
 
@@ -13,12 +13,12 @@ export interface Order {
   items: CartItem[]
   payment: {
     type: string,
-    address?: any,
-    creditCard?: any,
+    address?: string,
+    creditCard?: string,
   },
   delivery: {
     type: string,
-    address: any,
+    address: string,
   },
   comments: string,
   status: ORDER_STATUS;

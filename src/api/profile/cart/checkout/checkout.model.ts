@@ -1,46 +1,40 @@
-import crypto from 'node:crypto'
-import mongoose from "mongoose";
+import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from "sequelize";
+import { sequelize } from "../../../db";
+import CartModel from '../cart.model'
 
-import type { Order } from "./checkout.types";
+import type { UUID } from "node:crypto";
+import type { CartItem, Cart } from "../cart.types";
+import { ORDER_STATUS } from "./checkout.types";
 
-const itemSchema = new mongoose.Schema({
-    product: {
-        type: String,
-        ref: "Product",
-    },
-    count: Number,
+interface CheckoutModelInterface extends Model<InferAttributes<CheckoutModelInterface>, InferCreationAttributes<CheckoutModelInterface>> {
+  id: CreationOptional<UUID>;
+  userId: UUID,
+  cartId: UUID,
+  items: NonAttribute<CartItem[]>
+  payment: {
+    type: string,
+    address?: string,
+    creditCard?: string,
+  },
+  delivery: {
+    type: string,
+    address: string,
+  },
+  comments: string,
+  status: ORDER_STATUS,
+  total: NonAttribute<Cart['total']>
+}
+
+const CheckoutModel = sequelize.define<CheckoutModelInterface>('Checkout', {
+  id: { type: DataTypes.UUID, primaryKey: true, defaultValue: DataTypes.UUIDV4},
+  userId: { type: DataTypes.UUID, allowNull: false, validate: { isUUID: 4 }},
+  cartId: { type: DataTypes.UUID, allowNull: false, references: { model: CartModel, key: 'id' }},
+  payment: { type: DataTypes.JSON }, // TODO
+  delivery: { type: DataTypes.JSON }, // TODO
+  comments: { type: DataTypes.STRING, allowNull: false},
+  status: { type: DataTypes.STRING, validate: { isIn: [['created', 'completed']] }},
 }, {
-  _id: false,
-  versionKey: false,
+  tableName: 'checkouts'
 });
-
-const schema = new mongoose.Schema({
-    _id: { type: String, default: crypto.randomUUID },
-    userId: { type: String, required: true },
-    cartId: { type: String, required: true },
-    items: { type: [itemSchema], default: [], required: true },
-    payment: {
-        type: { type: String, required: true },
-        address: { type: mongoose.Schema.Types.Mixed },
-        creditCard: { type: mongoose.Schema.Types.Mixed }
-    },
-    delivery: {
-        type: { type: String, required: true },
-        address: { type: mongoose.Schema.Types.Mixed, required: true },
-    },
-    comments: { type: String, required: true },
-    status: { type: String, enum: ["created", "completed"] },
-    total: Number
-}, {
-  toJSON: {
-    transform: function (doc, ret) {
-      ret.id = doc._id;
-      delete ret._id;
-      delete ret.__v;
-    }
-  }
-})
-
-const CheckoutModel = mongoose.model<Order>("Checkout", schema)
 
 export default CheckoutModel
