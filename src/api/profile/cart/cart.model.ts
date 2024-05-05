@@ -1,8 +1,11 @@
+import type { UUID } from "node:crypto";
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from "sequelize";
 import { sequelize } from "../../db";
+
 import CartItems from "./cartItem/cartItem.model";
+import ProductModel from "../../products/products.model";
+
 import type { Cart, CartItem } from "./cart.types";
-import type { UUID } from "node:crypto";
 
 interface CartModelInterface extends Model<InferAttributes<CartModelInterface>, InferCreationAttributes<CartModelInterface>> {
   id: CreationOptional<UUID>;
@@ -23,7 +26,8 @@ const CartModel = sequelize.define<CartModelInterface>('Cart', {
   tableName: 'carts'
 });
 
-CartModel.hasMany(CartItems, { foreignKey: 'cartId' });
+CartModel.hasMany(CartItems, { foreignKey: 'cartId', as: 'items' });
+CartItems.belongsTo(ProductModel, { foreignKey: 'productId', as: 'product' });
 
 export default CartModel;
 
