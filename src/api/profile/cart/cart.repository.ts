@@ -1,4 +1,6 @@
 import { sequelize } from "../../db";
+import { Op } from "sequelize";
+
 import Cart from "./cart.model";
 import CartItems from "./cartItem/cartItem.model";
 import Product from "../../products/products.model";
@@ -7,17 +9,18 @@ import { timestampsFieldsList } from "../../constants";
 
 import type { CartItem } from "./cart.types";
 import type { UserId } from "../profile.type";
-import { Op } from "sequelize";
 
 export const getCart = async (userId: UserId) => {
   let cart = await Cart.findOne({ 
     where: { userId, isDeleted: false },
     include: { 
-      model: CartItems, 
+      model: CartItems,
       as: 'items',
+      attributes: { exclude: [...timestampsFieldsList, 'id', 'cartId', 'productId'] },
       include: [{
-        model: Product,
-        as: 'product'
+        model: Product, 
+        as: 'product',
+        attributes: { exclude: timestampsFieldsList }
       }]
     },
     attributes: { exclude: timestampsFieldsList }
@@ -46,7 +49,7 @@ export const updateCart = async (
       { 
         where: { userId, isDeleted: false },
         returning: true,
-        transaction
+        transaction,
       });
 
     const cart = updatedRows?.[0];
@@ -69,14 +72,15 @@ export const updateCart = async (
 
     // Add new items to the cartItems table
     for (const item of items) {
-      await CartItems.upsert(
-        {
+      const { count } = item
+      await CartItems.update({count},
+        { where: {
           cartId: cart.id,
           productId: item.product.id,
-          count: item.count
-        }, 
-        { transaction });
-    }    
+        },
+          transaction 
+        });
+    }
 
     await transaction.commit();
 
@@ -92,7 +96,8 @@ export const updateCart = async (
 export const deleteCart = async (userId: UserId) => {
   const cart = await Cart.update(
     { isDeleted: true },
-    { where: { userId, isDeleted: false } }
+    { where: { userId, isDeleted: false }
+  }
   );
   if (!cart) {
     return false
