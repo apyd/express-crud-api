@@ -1,14 +1,14 @@
-import { sequelize } from "../../db";
+import { sequelize } from "../db";
 import { Op } from "sequelize";
 
-import Cart from "./cart.model";
-import CartItems from "./cartItem/cartItem.model";
-import Product from "../../products/products.model";
+import Cart from "../models/cart.model";
+import CartItems from "../models/cartItem.model";
+import Product from "../models/products.model";
 
-import { timestampsFieldsList } from "../../constants";
+import { timestampsFieldsList } from "../constants";
 
-import type { CartItem } from "./cart.types";
-import type { UserId } from "../profile.type";
+import type { CartItem } from "../types/cart.types";
+import type { UserId } from "../validators/profile.type";
 
 export const getCart = async (userId: UserId) => {
   let cart = await Cart.findOne({ 

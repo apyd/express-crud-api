@@ -1,7 +1,7 @@
-import { createOrder } from './checkout.repository';
-import { BadRequestError } from '../../../utils/errors';
-import type { Order, RequestOrderData } from './checkout.types';
-import type { UserId } from '../../profile.type';
+import { createOrder } from '../repositories/checkout.repository';
+import { BadRequestError } from '../utils/errors';
+import type { Order, RequestOrderData } from '../types/checkout.types';
+import type { UserId } from '../validators/profile.type';
 
 export const createOrderService = async (userId: UserId, orderData: RequestOrderData): Promise<Order | null> => {
     const order = await createOrder(userId, orderData);

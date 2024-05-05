@@ -1,6 +1,6 @@
-import Product from "./products.model";
+import Product from "../models/products.model";
 import { timestampsFieldsList } from "../constants";
-import type { ProductId } from "./product/product.types";
+import type { ProductId } from "../types/product.types";
 
 export const getAll = async () => await Product.findAll()
 

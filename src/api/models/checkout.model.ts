@@ -1,10 +1,10 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model, NonAttribute } from "sequelize";
-import { sequelize } from "../../../db";
-import CartModel from '../cart.model'
+import { sequelize } from "../db";
+import CartModel from './cart.model'
 
 import type { UUID } from "node:crypto";
-import type { CartItem, Cart } from "../cart.types";
-import { ORDER_STATUS } from "./checkout.types";
+import type { CartItem, Cart } from "../types/cart.types";
+import { ORDER_STATUS } from "../types/checkout.types";
 
 interface CheckoutModelInterface extends Model<InferAttributes<CheckoutModelInterface>, InferCreationAttributes<CheckoutModelInterface>> {
   id: CreationOptional<UUID>;

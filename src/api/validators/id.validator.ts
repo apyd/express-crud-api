@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { UUID } from "node:crypto";
-import { BadRequestError } from "../../utils/errors";
+import { BadRequestError } from "../utils/errors";
 
 const schema = Joi.object({
   id: Joi.string().guid({ version: "uuidv4" }),

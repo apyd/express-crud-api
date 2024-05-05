@@ -1,10 +1,10 @@
-import { getProductByIdService } from "../../products/products.service";
-import { getCart, updateCart, deleteCart } from "./cart.repository";
-import { BadRequestError, NotFoundError } from "../../utils/errors";
+import { getProductByIdService } from "./products.service";
+import { getCart, updateCart, deleteCart } from "../repositories/cart.repository";
+import { BadRequestError, NotFoundError } from "../utils/errors";
 
-import type { CartResponse, UpdateCartRequestBody } from "./cart.types";
-import type { UserId } from "../profile.type";
-import type { Product } from "../../products/product/product.types";
+import type { CartResponse, UpdateCartRequestBody } from "../types/cart.types";
+import type { UserId } from "../validators/profile.type";
+import type { Product } from "../types/product.types";
 
 export const getCartService = async (userId: UserId): Promise<CartResponse> => {
   try {

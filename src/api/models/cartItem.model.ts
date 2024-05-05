@@ -1,7 +1,7 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from "sequelize";
-import { sequelize } from "../../../db";
-import Cart from "../cart.model";
-import Product from "../../../products/products.model";
+import { sequelize } from "../db";
+import Cart from "./cart.model";
+import Product from "./products.model";
 import type { UUID } from "node:crypto";
 
 interface CartItemModelInterface extends Model<InferAttributes<CartItemModelInterface>, InferCreationAttributes<CartItemModelInterface>> {

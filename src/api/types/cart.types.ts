@@ -1,6 +1,6 @@
-import type { Product, ProductId } from "../../products/product/product.types";
+import type { Product, ProductId } from "./product.types";
 import type { UUID } from "node:crypto"
-import type { UserId } from "../profile.type";
+import type { UserId } from "../validators/profile.type";
 
 export type CartId = UUID;
 

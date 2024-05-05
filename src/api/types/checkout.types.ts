@@ -1,6 +1,6 @@
 import type { UUID } from 'crypto';
-import type { CartId, CartItem } from '../cart.types';
-import type { UserId } from '../../profile.type';
+import type { CartId, CartItem } from './cart.types';
+import type { UserId } from '../validators/profile.type';
 
 export type ORDER_STATUS = 'created' | 'completed';
 

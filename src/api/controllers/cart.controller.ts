@@ -3,11 +3,11 @@ import {
   getCartService,
   updateCartService,
   deleteCartService,
-} from "./cart.service";
+} from "../services/cart.service";
 
-import type { UpdateCartRequestBody } from "./cart.types";
-import type { UserId } from "../profile.type";
-import { validateCart } from "./cart.validator";
+import type { UpdateCartRequestBody } from "../types/cart.types";
+import type { UserId } from "../validators/profile.type";
+import { validateCart } from "../validators/cart.validator";
 
 export const getCart = async (
   req: Request,

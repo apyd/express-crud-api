@@ -1,6 +1,6 @@
 import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from "sequelize";
 import { sequelize } from "../db";
-import type { Product } from "./product/product.types";
+import type { Product } from "../types/product.types";
 import { UUID } from "node:crypto";
 
 interface ProductModelInterface extends Model<InferAttributes<ProductModelInterface>, InferCreationAttributes<ProductModelInterface>> {

@@ -1,12 +1,14 @@
-import Checkout from './checkout.model';
-import Cart from '../cart.model';
-import CartItems from "../cartItem/cartItem.model";
-import Product from "../../../products/products.model";
+import { getCart } from './cart.repository';
 
-import type {  RequestOrderData } from "./checkout.types";
-import type { UserId } from '../../profile.type';
-import { getCart } from '../cart.repository';
-import { timestampsFieldsList } from '../../../constants';
+import Checkout from '../models/checkout.model';
+import Cart from '../models/cart.model';
+import CartItems from "../models/cartItem.model";
+import Product from "../models/products.model";
+
+import type {  RequestOrderData } from "../types/checkout.types";
+import type { UserId } from '../validators/profile.type';
+
+import { timestampsFieldsList } from '../constants';
 
 export const createOrder = async (userId: UserId, orderData: RequestOrderData) => {
 
