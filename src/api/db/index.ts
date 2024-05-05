@@ -10,3 +10,5 @@ export const sequelize = new Sequelize({
     host: DB_SERVER,
     port: Number(DB_PORT),
 });
+
+(async () => await sequelize.sync())()
