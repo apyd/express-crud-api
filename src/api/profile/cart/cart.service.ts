@@ -2,20 +2,23 @@ import { getProductByIdService } from "../../products/products.service";
 import { getCart, updateCart, deleteCart } from "./cart.repository";
 import { BadRequestError, NotFoundError } from "../../utils/errors";
 
-import type { Cart, CartResponse, UpdateCartRequestBody } from "./cart.types";
+import type { CartResponse, UpdateCartRequestBody } from "./cart.types";
 import type { UserId } from "../profile.type";
 import type { Product } from "../../products/product/product.types";
-import type { UUID } from "node:crypto";
 
 export const getCartService = async (userId: UserId): Promise<CartResponse> => {
-  const cart = await getCart(userId);
-  const { id, items, total } = cart;
-  return {
-    cart: {
-      id,
-      items
-    },
-    total
+  try {
+    const cart = await getCart(userId);
+    const { id, items, total } = cart;
+    return {
+      cart: {
+        id,
+        items
+      },
+      total
+    }
+  } catch (_) {
+    throw new Error('Server error. Please try again.')
   }
 };
 

@@ -20,7 +20,5 @@ const CartItemModel = sequelize.define<CartItemModelInterface>('CartItem', {
   tableName: 'cart_items'
 });
 
-CartItemModel.hasMany(Product, { foreignKey: 'productId' });
-
 export default CartItemModel;
 
