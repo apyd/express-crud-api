@@ -7,7 +7,7 @@ type UserSchemaType = 'register' | 'login'
 
 const loginSchema = Joi.object({
     email: Joi.string().email().required(),
-    role: Joi.string().valid("user", "admin").required()
+    password: Joi.string().required(),
 })
 
 const registerSchema = Joi.object({
