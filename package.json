@@ -4,11 +4,12 @@
   "description": "crud api app",
   "main": "index.js",
   "scripts": {
+    "start:db": "docker compose up -d", 
     "start": "tsx --env-file=.env --watch src/server.ts",
-    "seed": "npx sequelize-cli db:seed:all",
-    "seed:undo": "npx sequelize-cli db:seed:undo",
     "migrate:up": "npx sequelize-cli db:migrate",
-    "migrate:undo": "npx sequelize-cli db:migrate:undo"
+    "migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "seed": "npx sequelize-cli db:seed:all",
+    "seed:undo": "npx sequelize-cli db:seed:undo"
   },
   "repository": {
     "type": "git",
