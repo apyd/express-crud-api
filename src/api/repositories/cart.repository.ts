@@ -54,7 +54,7 @@ export const updateCart = async (
 
     const cart = updatedRows?.[0];
     if (!cart) {
-      transaction.rollback();
+      await transaction.rollback();
       return;
     }
 
@@ -70,16 +70,30 @@ export const updateCart = async (
       transaction
     })
 
-    // Add new items to the cartItems table
+    // Update existing items or add new items to the cartItems table
     for (const item of items) {
-      const { count } = item
-      await CartItems.update({count},
-        { where: {
+      const cartItem = await CartItems.findOne({
+        where: {
           cartId: cart.id,
           productId: item.product.id,
-        },
-          transaction 
-        });
+        }
+      });
+
+      if(!cartItem) {
+        await CartItems.create({
+          cartId: cart.id,
+          productId: item.product.id,
+          count: item.count,
+        }, { transaction })
+      }
+
+      if(cartItem) {
+        await CartItems.update({ count: item.count }, {
+          where: {
+            cartId: cart.id,
+            productId: item.product.id,
+          }, transaction })
+      }
     }
 
     await transaction.commit();
