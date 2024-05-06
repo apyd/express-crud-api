@@ -11,6 +11,12 @@ import { errorHandler } from "../middleware/error";
 
 const router = express.Router();
 
+router.get('/health', (_, res) => {
+  res.status(200).json({
+    message: 'Application is healthy'
+  })
+})
+
 router.post('/api/auth/register', authHandler.registerUser)
 router.post('/api/auth/login', authHandler.loginUser)
 
