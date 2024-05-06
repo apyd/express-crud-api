@@ -3,7 +3,7 @@ import { getCart, updateCart, deleteCart } from "../repositories/cart.repository
 import { BadRequestError, NotFoundError } from "../utils/errors";
 
 import type { CartResponse, UpdateCartRequestBody } from "../types/cart.types";
-import type { UserId } from "../validators/profile.type";
+import type { UserId } from "../types/user.types";
 import type { Product } from "../types/product.types";
 
 export const getCartService = async (userId: UserId): Promise<CartResponse> => {

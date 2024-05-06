@@ -6,6 +6,7 @@ import CartItems from "./cartItem.model";
 import ProductModel from "./products.model";
 
 import type { Cart, CartItem } from "../types/cart.types";
+import UserModel from "./user.model";
 
 interface CartModelInterface extends Model<InferAttributes<CartModelInterface>, InferCreationAttributes<CartModelInterface>> {
   id: CreationOptional<UUID>;
@@ -17,9 +18,7 @@ interface CartModelInterface extends Model<InferAttributes<CartModelInterface>, 
 
 const CartModel = sequelize.define<CartModelInterface>('Cart', {
   id: { type: DataTypes.UUID, primaryKey: true, defaultValue: DataTypes.UUIDV4},
-  // temporarily userId is not referenced to user table as it doesn't exist- 
-  // this will be implemented in next PR at the moment we just keep userId as a uuidv4
-  userId: { type: DataTypes.UUID, allowNull: false, validate: { isUUID: 4 }},
+  userId: { type: DataTypes.UUID, allowNull: false, references: { model: UserModel, key: 'id' }},
   isDeleted: { type: DataTypes.BOOLEAN, defaultValue: false },
   total: { type: DataTypes.DECIMAL, defaultValue: 0, validate: { min: 0 }},
 }, {

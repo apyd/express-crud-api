@@ -6,7 +6,7 @@ import {
 } from "../services/cart.service";
 
 import type { UpdateCartRequestBody } from "../types/cart.types";
-import type { UserId } from "../validators/profile.type";
+import type { UserId } from "../types/user.types";
 import { validateCart } from "../validators/cart.validator";
 
 export const getCart = async (
@@ -15,7 +15,7 @@ export const getCart = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const userId = req.headers["x-user-id"] as UserId;
+    const userId = req.user.id
     const cart = await getCartService(userId);
     res.json({
       data: cart,
@@ -32,7 +32,7 @@ export const updateCart = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const userId = req.headers["x-user-id"] as UserId;
+    const userId = req.user.id as UserId;
     const updateCartData: UpdateCartRequestBody = req.body;
     validateCart(updateCartData)
     const cart = await updateCartService(userId, updateCartData);
@@ -51,8 +51,8 @@ export const deleteCart = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const userId = req.headers["x-user-id"];
-    await deleteCartService(userId as UserId);
+    const userId = req.user.id as UserId;
+    await deleteCartService(userId);
     res.json({
       data: {
         success: true,

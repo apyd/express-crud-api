@@ -7,7 +7,7 @@ import CartItems from "../models/cartItem.model";
 import Product from "../models/products.model";
 
 import type {  RequestOrderData } from "../types/checkout.types";
-import type { UserId } from '../validators/profile.type';
+import type { UserId } from '../types/user.types';
 
 import { timestampsFieldsList } from '../constants';
 import PaymentModel from '../models/payment.model';
