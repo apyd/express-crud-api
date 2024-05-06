@@ -19,7 +19,8 @@ router.use(authenticate);
 router.get("/api/profile/cart", cartHandler.getCart);
 router.put("/api/profile/cart", cartHandler.updateCart);
 router.delete("/api/profile/cart", authorizeAsAdmin, cartHandler.deleteCart);
-router.post("/api/profile/cart/checkout", checkoutHandler.createOrder);
+router.post("/api/profile/cart/checkout"
+, checkoutHandler.createOrder);
 
 router.get("/api/products", productsController.getAllProducts);
 router.get("/api/products/:productId", productsController.getProductById);
