@@ -27,8 +27,6 @@ export const createOrder = async (userId: UserId, orderData: RequestOrderData) =
 
   const newOrderId = randomUUID();
 
-  console.log({ userId , id: cart.id})
-
   try {
     const order = await Checkout.create({
       id: newOrderId,

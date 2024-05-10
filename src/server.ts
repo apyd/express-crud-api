@@ -1,6 +1,7 @@
 import express from "express";
 import { sequelize } from "./api/db"
 import router from "./api/routes";
+import { logger } from "./api/utils/logger";
 
 import type { Socket } from "net";
 
@@ -16,13 +17,13 @@ app.use("/", router);
 let connections: Socket[] = [];
 
 const server = app.listen(APP_PORT || 3000, async () => {
-  console.log(`Server is running on port ${APP_PORT || 3000}`);
+  logger.info(`Server is running on port ${APP_PORT || 3000}`);
 
   try {
     await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
+    logger.info("Connection has been established successfully.");
   } catch (error) {
-    console.error("Unable to connect to the database:", error);
+    logger.info("Unable to connect to the database:", error);
   }
 });
 
@@ -37,15 +38,15 @@ server.on('connection', (connection) => {
 })
 
 function shutdown() {
-  console.log('Received kill signal, shutting down gracefully');
+  logger.info('Received kill signal, shutting down gracefully');
   
   server.close(() => {
-    console.log('Closed out remaining connections');
+    logger.info('Closed out remaining connections');
     process.exit(0);
   });
 
   setTimeout(() => {
-    console.error('Could not close connections in time, forcefully shutting down');
+    logger.error('Could not close connections in time, forcefully shutting down');
     process.exit(1);
   }, 20000);
 
