@@ -1,7 +1,7 @@
-import { getAll, getById } from "./products.repository";
+import { getAll, getById } from "../repositories/products.repository";
 import { BadRequestError } from "../utils/errors";
 
-import type { ProductId } from "./product/product.types";
+import type { ProductId } from "../types/product.types";
 
 export const getProductsService = async () => {
   return await getAll()

@@ -1,7 +1,7 @@
 const Joi = require('joi');
-import { BadRequestError } from "../../utils/errors";
+import { BadRequestError } from "../utils/errors";
 
-import type { UpdateCartRequestBody } from "../../profile/cart/cart.types";
+import type { UpdateCartRequestBody } from "../types/cart.types";
 
 const productSchema = Joi.object({
     productId: Joi.string().guid({ version: 'uuidv4' }),

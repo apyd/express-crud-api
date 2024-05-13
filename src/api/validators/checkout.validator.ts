@@ -1,7 +1,7 @@
 const Joi = require("joi");
-import { BadRequestError } from "../../../utils/errors";
+import { BadRequestError } from "../utils/errors";
 
-import type { RequestOrderData } from "./checkout.types";
+import type { RequestOrderData } from "../types/checkout.types";
 
 const schema = Joi.object({
   payment: {

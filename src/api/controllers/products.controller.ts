@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { getProductByIdService, getProductsService } from "./products.service";
-import { validateId } from "../common/validator/id.validator";
+import { getProductByIdService, getProductsService } from "../services/products.service";
+import { validateId } from "../validators/id.validator";
 
-import type { ProductId } from "./product/product.types";
+import type { ProductId } from "../types/product.types";
 
 export const getAllProducts = async (
   _: Request,

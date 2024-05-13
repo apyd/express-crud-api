@@ -1,11 +1,11 @@
 import express from "express";
 
-import * as cartHandler from "../profile/cart/cart.controller";
-import * as checkoutHandler from "../profile/cart/checkout/checkout.controller";
-import * as productsController from "../products/products.controller";
+import * as cartHandler from "../controllers/cart.controller";
+import * as checkoutHandler from "../controllers/checkout.controller";
+import * as productsController from "../controllers/products.controller";
 
-import { auth } from "../common/middleware/auth";
-import { errorHandler } from "../common/middleware/error";
+import { auth } from "../middleware/auth";
+import { errorHandler } from "../middleware/error";
 
 const router = express.Router();
 

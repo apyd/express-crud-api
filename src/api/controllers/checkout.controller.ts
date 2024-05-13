@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { createOrderService } from "./checkout.service";
-import { validateCheckout } from "./checkout.validator";
+import { createOrderService } from "../services/checkout.service";
+import { validateCheckout } from "../validators/checkout.validator";
 
-import type { RequestOrderData } from "./checkout.types";
-import type { UserId } from "../../profile.type";
+import type { RequestOrderData } from "../types/checkout.types";
+import type { UserId } from "../validators/profile.type";
 
 export const createOrder = async (
   req: Request,
