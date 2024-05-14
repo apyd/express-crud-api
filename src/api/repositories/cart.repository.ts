@@ -8,7 +8,7 @@ import Product from "../models/products.model";
 import { timestampsFieldsList } from "../constants";
 
 import type { CartItem } from "../types/cart.types";
-import type { UserId } from "../validators/profile.type";
+import type { UserId } from "../types/user.types";
 
 export const getCart = async (userId: UserId) => {
   let cart = await Cart.findOne({ 
