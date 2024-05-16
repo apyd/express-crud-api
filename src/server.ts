@@ -1,7 +1,8 @@
 import express from "express";
+import morgan from "morgan";
 import { sequelize } from "./api/db"
 import router from "./api/routes";
-import { logger } from "./api/utils/logger";
+import { logger, loggerStream } from "./api/utils/logger";
 
 import type { Socket } from "net";
 
@@ -11,6 +12,9 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(morgan(':method :url - :response-time ms', { stream: loggerStream }));
+
 app.use("/", router);
 
 // Connections needed for graceful shutdown
