@@ -12,8 +12,8 @@ import { sequelize } from "../db";
 
 const router = express.Router();
 
-// Authentication not required for healthcheck therefore before authentication middleware
-router.get("api/healthcheck", async (_, res) => {
+// No auth for health check endpoint
+router.get("api/health", async (_, res) => {
   try {
     await sequelize.authenticate();
     res.status(200).json({
