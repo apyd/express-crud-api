@@ -4,8 +4,8 @@
   "description": "crud api app",
   "main": "index.js",
   "scripts": {
-    "start:db": "docker compose up -d",
-    "start": "tsx --env-file=.env --watch src/server.ts",
+    "dev": "tsx --env-file=test.env --watch src/server.ts",
+    "prod": "npx tsc --build &&  ./build/server.js",
     "migrate:up": "npx sequelize-cli db:migrate",
     "migrate:undo": "npx sequelize-cli db:migrate:undo",
     "seed": "npx sequelize-cli db:seed:all",
