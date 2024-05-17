@@ -1,6 +1,6 @@
 version: "3"
 services:
-  postgres-db:
+  db:
     image: "postgres:15.2"
     container_name: "node-gmp-db"
     restart: always
@@ -10,9 +10,13 @@ services:
       - POSTGRES_DB=${DB_APP_NAME}
     ports:
       - 5432:5432
+    networks:
+      - express-network
     volumes:
       - postgres_db:/var/lib/postgresql/data
   pgadmin:
+    depends_on:
+      - db
     image: dpage/pgadmin4
     container_name: pgadmin4_container
     restart: always
@@ -21,10 +25,28 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    networks:
+      - express-network
     volumes:
       - pgadmin-data:/var/lib/pgadmin
+  api:
+    depends_on:
+      - db
+    restart: always
+    build: .
+    ports: 
+      - "3000:3000"
+    networks:
+      - express-network
+    volumes:
+      - server-data:/var/lib/server
 volumes:
   postgres_db:
     driver: local
   pgadmin-data:
     driver: local
+  server-data:
+    driver: local
+
+networks:
+  express-network: 
