@@ -2,5 +2,7 @@ node_modules
 logs
 
 .env
+prod.env
+test.env
 
 .vscode
